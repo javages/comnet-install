@@ -73,42 +73,23 @@ echo "           None of these testnets are guaranteed or even likely to be runn
 echo "           Please refer to threads on https://safenetforum.org for current news on live testnets."
 
 echo ""
-echo "               1     sjefolaht"
-echo "               2     comnet"
-echo "               3     southsidenet"
-echo "               4     playground"
+echo "               1     comnet"
 echo ""
 echo ""
-echo "                                    Please select 1, 2, 3 or 4"
+echo "                                    Please select 1"
 read SAFENET_CHOICE
 echo ""
 
 case $SAFENET_CHOICE in
 
-  1)
-  SAFENET=sjefolaht
-  CONFIG_URL=https://link.tardigradeshare.io/s/julx763rsy2egbnj2nixoahpobgq/rezosur/koqfig/sjefolaht_node_connection_info.config?wrap=0
-    
-    ;;
 
-  2)  SAFENET=comnet
+  1)  SAFENET=comnet
     CONFIG_URL=https://sn-comnet.s3.eu-west-2.amazonaws.com/node_connection_info.config
-    ;;
-
-  3)
-  SAFENET=southsidenet
-    CONFIG_URL=https://comnet.snawaffadyke.com/southsidenet.config
-
-    ;;
-
-    4)
-  SAFENET=playground
-    CONFIG_URL=https://safe-testnet-tool.s3.eu-west-2.amazonaws.com/public-node_connection_info.config
-
+   
     ;;
     
   *)
-    echo " Invalid selection, please choose 1-4 to select a testnet"
+    echo " Invalid selection, please choose 1 to select"
     ;;
 esac
 
@@ -168,12 +149,6 @@ then
     rm -rf $TMP_GH_DIR
 fi
 
-sudo apt -qq update >/dev/null
-sudo apt -qq install -y snapd build-essential moreutils tree >/dev/null
-sudo snap install curl
-sudo snap install rustup --classic
-rustup toolchain install stable
-
 mkdir -p \
 	$TMP_GH_DIR \
 	$HOME/.safe/cli \
@@ -182,18 +157,14 @@ mkdir -p \
 PATH=$PATH:/$HOME/.safe/cli:$HOME/.cargo/bin   
 
 git clone https://github.com/maidsafe/safe_network.git $TMP_GH_DIR
-cd ~/github-tmp
+cd ~/github/sn-tmp
 cargo build --release
-cp $TMP_GH_DIR/target/release/safe ~/.safe/cli/
 cp $TMP_GH_DIR/target/release/sn_node ~/.safe/node/
-echo $(safe --version) "CLI install complete"
 echo $(safe node bin-version) "Node install complete"
 sleep 2
 
 tree  $HOME/.safe
 sleep 3
-
-cargo install vdash
 
 ACTIVE_IF=$( ( cd /sys/class/net || exit; echo *)|awk '{print $1;}')
 LOCAL_IP=$(ifdata -pa "$ACTIVE_IF")
@@ -282,6 +253,4 @@ echo ""
 echo ""
 sleep 3
 
-# Install or update vdash
 
-vdash "$LOG_DIR"/sn_node.log
