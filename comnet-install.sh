@@ -233,24 +233,6 @@ WantedBy=multi-user.target"\
 sudo systemctl start sn_node.service
 #sudo systemctl status sn_node.service
 
-#clear
-echo "_____________________________________________________________________________________________________"
-echo ""
-echo "                    Now cofiguring vdash from @happybeing"
-echo ""
-echo ""
-echo "       press 'q' to quit vdash     --- this will not stop your node ---"
-echo ""
-echo ""
-echo "    You can cycle through different Safe nodes using left/right arrow keys, and zoom the timeline scale in/out using 'i' and 'o' (or '+' and '-')."
-echo ""
-echo "    Feature requests and discussion are currently summarised in the opening post of the Safe Network forum topic: Node Dashboard ideas please!."
-echo ""
-echo ""
-echo ""
-echo ""
-echo ""
-echo ""
-sleep 3
+fi
 
-
+tail --follow=name ~/.safe/node/local-node/sn_node.log
